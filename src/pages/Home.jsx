@@ -1,31 +1,36 @@
+
 import { useEffect, useState } from "react";
-import NavBar from "../components/NavBar"; // Import the NavBar component
-import MovieCard from "../components/MovieCard"; // Import the MovieCard component
+import NavBar from "../components/NavBar";
+import MovieCard from "../components/MovieCard";
 
 function Home() {
-  const [movies, setMovies] = useState([]);
-
-  // Fetch movies from the API when the component mounts
+  const [movies, setMovies] = useState([])
   useEffect(() => {
     fetch("http://localhost:4000/movies")
-      .then((res) => res.json())
-      .then((data) => setMovies(data));
-  }, []);
+    .then(res => res.json())
+    .then(data => setMovies(data))
+  },[])
 
+  const movieList = movies.map(movie => {
+    //console.log(movie);
+   return(
+    <MovieCard
+    key={movie.id}
+    title={movie.title}
+    id={movie.id}/>
+   )
+  })
   return (
     <>
       <header>
-        <NavBar /> {/* Render the NavBar component */}
+        <NavBar/>
       </header>
       <main>
-        <h1>Home Page</h1>
-        {/* Map through the movies data and display each movie */}
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} id={movie.id} title={movie.title} />
-        ))}
+        <h1> Home Page</h1>
+        {movieList}
       </main>
     </>
   );
-}
+};
 
 export default Home;
